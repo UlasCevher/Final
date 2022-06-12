@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="hover.css">
+    <title>STM32 Rotary Encoder ile Menü</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#page">Ana Sayfa</a></li>
+                <li><a href="#codes">Kodlar</a></li>
+                <li><a href="#docs">Dökümanlar</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Main -->
+    <main id="page">
+        <h1>STM32 ve Rotary Encoder ile Menü Yapımı</h1>
+        <p>Bu yazımızda stm32 ve rotary encoder kullanarak STM32 ile nasıl menü yapılacağını anlatacağım.</p>
+        <p class="line">Öncelikle rotary encoder nedir bununla başlayalım.</p>
+        
+
+        <h2>Rotary Encoder Nedir?</h2>
+        <div class="image-section">
+            <img src="https://images.hepsiburada.net/description-assets/description-prod-1/93506788-d6b3-4393-9fa5-0eed42db206c.jpg" alt="Rotary Encoder" height="300px">
+        </div>
+        <p>Rotary encoder döndükçe elektrik sinyali üreten sensördür. konum belirlemede kullanılır. Bizde bu özelliği kullnarak encoderdeki değeri okuyup menü yapacağız.</p>
+        <h2>Malzeme Listesi</h2>
+        <ul>
+            <li>STM32F401 (siz hangi seriyi kullanmak isterseniz kullanabilirsiniz)</li>
+            <li>Breadboard</li>
+            <li>OLED Ekran</li>
+            <li>Rotary Encoder</li>
+            <li>Birkaç jumper kablo</li>
+        </ul>
+        <p>Öncelikle MxCubeyi açıp gerekli ayarları yapmaya başlıyoruz.</p>
+        <p>Sırasıyla MxCube Ayarları</p>
+        <ul>
+            <li>SYS Kısmından <strong>SERIAL WIRE </strong>seçiyoruz. </li>
+            <li>RCC Kısmından <strong>Seramic </strong>Seçiyoruz</li>
+            <li>TIM1 ayalarından Combined Channel kısmını <strong>Encoder Modeye </strong>ayarlıyoruz.</li>
+            <li>OLED ekranı kullanabilmek için I2C'yi aktip edip speed modeyi <strong>FAST MODE </strong>yapıyoruz</li>
+        </ul>
+        <p>Ardırdan Clock Congfiguration ayarlarını resimde gösterdiğim gibi yapıyoruz.</p>
+        <p>Siz saat hızınızı istediğiniz hızda kullanabilirsiniz. STM32F401 max 84MHz destekliyor. Bende 72MHz olarak ayarladım.</p>
+        <p>Son olarak Project Managerden gerekli ayarlamaları yaparak Generate Code diyoruz</p>
+
+        <!-- Kodlar -->
+        
+        <h2 id="codes" class="line">Kütüphane Kodları</h2>
+        <code>
+            <pre>
+/* Private includes ---------*/
+/* USER CODE BEGIN Includes */
+
+#include "ssd1306.h"
+#include "fonts.h"
+
+/* USER CODE END Includes */ 
+            </pre>
+        </code>
+        <h2>Değişkenlerimiz için Kodlar</h2>
+        <code>
+            <pre>
+/* USER CODE BEGIN 1 */
+uint16_t secim; //Varsayilan ayar
+int clearCount = 0;     // Eger clear screen fonksiyonu için bir sayaç yapmazsak ekran sürekli yenilenecektir
+uint16_t counterTemp;
+
+//Satir kontrolu icin counterTemp adli degisken atadik. encoderi geri cevirirsek ve encoderin onceki degeri simdiki degerinden buyukse bir satir yukarıya cıkacaktır
+
+/* USER CODE END 1 */ 
+            </pre>
+        </code>
+        <h2>Gerekli Saat Ayarları ve Diğer Kurulumlar için Kodlar</h2>
+        <code>
+            <pre>
+/* USER CODE BEGIN 2 */ <br>
+SSD1306_Init();		//Oled ayarlarini kurduk <br>
+HAL_TIM_Encoder_Start(&htim1,TIM_CHANNEL_ALL);<br>
+TIM1->CNT = 1;	//Encoderin varsayilan yani baslangic degerini 1 yaptik <br>
+/* USER CODE END 2 */ <br>
+            </pre>
+        </code>
+        <h2>Ana Kodlar</h2>
+        <code>
+            <pre>
+/* Infinite loop */
+/* USER CODE BEGIN WHILE */
+while (1)
+{
+                    //Menu Ekranlari
+    secim = TIM1->CNT;		//Secime Encoderin degerini atiyoruz.
+    if(secim == 0x1){
+                        
+        if(counterTemp > TIM1->CNT){
+            clearCount = 0;
+        }
+                        
+        if(clearCount == 0){
+            SSD1306_Clear();
+            clearCount++;
+        }
+        counterTemp = TIM1->CNT;
+        SSD1306_GotoXY(0,15);
+        SSD1306_Puts(">",&Font_11x18,1);
+    }
+    else if(secim == 0x5){
+                        
+            if(counterTemp < TIM1->CNT || counterTemp > TIM1->CNT){
+                clearCount = 0;
+            }
+                        
+            if(clearCount == 0){
+                SSD1306_Clear();
+                clearCount++;
+            }
+            counterTemp = TIM1->CNT;
+            SSD1306_GotoXY(0,30);
+            SSD1306_Puts(">",&Font_11x18,1);
+            }
+            else if(secim == 0x9){
+                        
+                if(counterTemp < TIM1->CNT){
+                    clearCount = 0;
+                }
+                        
+                if(clearCount == 0){
+                    SSD1306_Clear();
+                    clearCount++;
+                }
+            counterTemp = TIM1->CNT;
+            SSD1306_GotoXY(0,45);
+            SSD1306_Puts(">",&Font_11x18,1);
+            }
+                    
+            if(TIM1->CNT > 9 && TIM1->CNT <= 0xC){
+                TIM1->CNT = 9;
+            }
+            if(TIM1->CNT < 1 || TIM1->CNT >= 0xFFF){
+                TIM1->CNT = 1;
+             }
+                            
+                    
+                    //Menu Secenekleri
+    SSD1306_GotoXY(10,15);
+    SSD1306_Puts("Ledi Yak",&Font_11x18,1);
+    SSD1306_GotoXY(10,30);
+    SSD1306_Puts("Ledi Kapat",&Font_11x18,1);
+    SSD1306_GotoXY(10,45);
+    SSD1306_Puts("Yapan",&Font_11x18,1);
+                    
+    SSD1306_UpdateScreen();
+                    
+                    //Buton Kontrol
+    if(secim == 1 && HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_2) == 0){
+        HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_RESET);
+    }
+    else if(secim == 5 && HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_2) == 0){
+        HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_SET);
+    }
+    else if(secim == 9 && HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_2) == 0){
+        SSD1306_Clear();
+        SSD1306_GotoXY(0,30);
+        SSD1306_Puts("ULAS CEVHER",&Font_11x18,1);
+        SSD1306_UpdateScreen();
+        HAL_Delay(2000);
+        SSD1306_Clear();
+    }
+                    
+                    
+/* USER CODE END WHILE */
+
+/* USER CODE BEGIN 3 */
+}
+            </pre>
+        </code>
+
+    <p class="paragh1" id="docs">Şimdi devremizin fotoğraflarına ve videosuna bakalım.</p>
+
+    <div class="photos">
+        <div class="middle">
+            <img src="SYS.PNG" alt="Sys Settings" height="250px" width="420px">  
+            <img src="RCC.PNG" alt="Rcc Setting" height="250px" width="420px"> 
+            <img src="TIM1.PNG" alt="TIM1 Setting" height="250" width="420px">
+            <img src="Tim2.PNG" alt="TIM1_1 Setting" height="250px" width="420px">
+            <img src="i2c.PNG" alt="I2C Setting" height="250px" width="420px">   
+            <img src="Clock.PNG" alt="I2C Setting" height="250px" width="420px">  
+        </div>
+         
+    </div>
+    <!-- <p>Video</p> -->
+    <div class="youtube-section">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/RoIMxqYVKWs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <!-- <span>Video açılmazsa video linki</span>
+    <a href="https://youtu.be/RoIMxqYVKWs">VIDEO LINK</a> -->
+
+    <!-- Kaynakça -->
+    <span>Dosyalara erişmek için aşağıdaki bağlantıyı kullanabilirsiniz.</span>
+    <a href="#">Dosyalar</a>
+    <p>Yazımı okuduğunuz için teşekkür ederim. Diğer projelerde görüşmek üzere...</p>
+
+    </main>
+    <footer>
+        <h3>Ulaş Cevher Tarafından Tasarlandı</h3>
+        <span>Tüm Hakları Saklıdır©</span>
+    </footer>
+</body>
+</html>

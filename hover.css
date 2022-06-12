@@ -1,0 +1,8 @@
+header nav ul li a:hover{
+    letter-spacing: 3px;
+}
+main a:hover{
+    font-weight: bolder;
+    background-color: white;
+    color: #3c40c6;
+}

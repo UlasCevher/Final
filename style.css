@@ -1,0 +1,140 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Kısmı */
+body{
+    background-color: white;
+    color: #1e272e;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* Header */
+header{
+    background-color: #3c40c6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+header nav ul{
+    display: flex;
+}
+header nav ul li{
+    list-style: none;
+    display: flex;
+}
+header nav ul li a{
+    letter-spacing: 1.5px;
+    display: flex;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: aliceblue;
+    margin: 0 3rem;
+    transition: 0.4s;
+}
+/* Main */
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+main h1{
+    margin-top: 1rem;
+    color:#3c40c6;
+    font-weight: normal;
+}
+main p{
+    font-size: 1.25rem;
+    align-self: flex-start;
+    padding: 1rem;
+    color: #1e272e;
+}
+
+main h2{
+    margin-top: 2rem;
+    color:#3c40c6;
+    font-weight: normal;
+}
+main .image-section{
+    margin-top: 1rem;
+}
+
+main ul{
+    margin-top: 1rem;
+    align-self: flex-start;
+    margin-left: 2rem;
+}
+main ul li{
+    list-style: none;
+}
+main code{
+    margin-top: 1rem;
+    margin-left: 1px;
+    border-radius: 3px;
+    background-color: #808e9b;
+    margin-top: 1rem;
+    align-self: flex-start;
+    padding: 1rem;
+    color: aliceblue;
+}
+main .paragh1{
+    align-self: center;
+}
+/* Photos */
+.photos img{
+    margin: 0.75rem;
+    padding: .5rem;
+    align-self: flex-start;
+    justify-self: center;
+}
+.photos .middle{
+    align-self: center;
+    justify-self: center;
+}
+
+/* Span */
+main span{
+    align-self: flex-start;
+    padding: 1rem;
+}
+main a{
+    transition: 1s;
+    color: aliceblue;
+    background-color: #3c40c6;
+    margin-left: 1rem;
+    align-self: flex-start;
+    padding: 1rem;
+    text-decoration: none;
+    border: 2px solid #3c40c6;
+    border-radius: 5px;
+}
+
+/* Footer */
+footer{
+    color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #3c40c6;
+    padding: 1rem;
+}
+footer h3{
+    text-decoration: none;
+    font-weight: normal;
+    letter-spacing: 1.5px;
+}
+footer span{
+    margin-top: 0.25rem;
+    letter-spacing: 3px;
+}
