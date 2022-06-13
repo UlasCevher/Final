@@ -31,7 +31,7 @@
         <div class="image-section">
             <img src="https://images.hepsiburada.net/description-assets/description-prod-1/93506788-d6b3-4393-9fa5-0eed42db206c.jpg" alt="Rotary Encoder" height="300px">
         </div>
-        <p>Rotary encoder döndükçe elektrik sinyali üreten sensördür. konum belirlemede kullanılır. Bizde bu özelliği kullnarak encoderdeki değeri okuyup menü yapacağız.</p>
+        <p>Rotary encoder döndükçe elektrik sinyali üreten sensördür. konum belirlemede kullanılır. Bizde bu özelliği kullanarak encoderdeki değeri okuyup menü yapacağız.</p>
         <h2>Malzeme Listesi</h2>
         <ul>
             <li>STM32F401 (siz hangi seriyi kullanmak isterseniz kullanabilirsiniz)</li>
@@ -74,7 +74,9 @@ uint16_t secim; //Varsayilan ayar
 int clearCount = 0;     // Eger clear screen fonksiyonu için bir sayaç yapmazsak ekran sürekli yenilenecektir
 uint16_t counterTemp;
 
-//Satir kontrolu icin counterTemp adli degisken atadik. encoderi geri cevirirsek ve encoderin onceki degeri simdiki degerinden buyukse bir satir yukarıya cıkacaktır
+/*Satir kontrolu icin counterTemp adli degisken atadik. 
+encoderi geri cevirirsek ve encoderin onceki degeri simdiki degerinden buyukse bir satir yukarıya cıkacaktır
+*/
 
 /* USER CODE END 1 */ 
             </pre>
