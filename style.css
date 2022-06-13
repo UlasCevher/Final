@@ -4,6 +4,8 @@
     box-sizing: border-box;
 }
 
+
+
 /* Body Kısmı */
 body{
     background-color: white;
@@ -92,7 +94,7 @@ main .paragh1{
 }
 /* Photos */
 .photos img{
-    margin: 0.75rem;
+    width: 100%;
     padding: .5rem;
     align-self: flex-start;
     justify-self: center;
@@ -138,6 +140,7 @@ footer span{
     margin-top: 0.25rem;
     letter-spacing: 3px;
 }
+
 
 
 /* Respsive */
