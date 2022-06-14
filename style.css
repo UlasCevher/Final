@@ -112,6 +112,18 @@ main .paragh1{
     padding: .5rem;
     margin: auto auto;
 }
+.diagram{
+    padding: 1rem;
+    display: flex;
+    width: 100%;
+}
+.diagram img{
+    height: 500px;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    margin: auto auto;
+}
 
 /* Span */
 main span{
@@ -128,6 +140,13 @@ main a{
     text-decoration: none;
     border: 2px solid #3c40c6;
     border-radius: 5px;
+}
+.about{
+    align-self:flex-start ;
+    padding: 1rem;
+    font-size: 1.25rem;
+    font-weight: bolder;
+    letter-spacing: 1.5px;
 }
 
 /* Footer */
@@ -220,6 +239,18 @@ footer span{
     }
     main .image-section img{
         width: 100%;
+    }
+    .diagram{
+        padding: 1rem;
+        display: flex;
+        width: auto;
+    }
+    .diagram img{
+        width: 100%;
+        height: auto;
+        align-items: center;
+        justify-content: center;
+        margin: auto auto;
     }
     .youtube-section{
         width: 100%;
